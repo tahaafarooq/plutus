@@ -60,7 +60,7 @@ class MonitorNetwork(object):
         packets = []
         for packet in capture.sniff_continuously():
             if "malicious_pattern" in packet:
-                print("[!] [SUSPICIOUS ACTIVITY DETECTED ON THE NETWORK] [!]")
+                # print("[!] [SUSPICIOUS ACTIVITY DETECTED ON THE NETWORK] [!]")
                 packets.append(packet)
 
         return packets
