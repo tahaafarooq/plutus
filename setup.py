@@ -22,7 +22,7 @@ setup(
         "monitoring tool" "monitoring" "cybersecurity" "blue-teaming" "security tools",
         "python-tanzania",
     ],
-    install_requires=["psutil", "pyshark", "systemd"],
+    install_requires=["psutil", "pyshark", "systemd", "subprocess"],
     include_package_data=True,
     python_requires=">=3.7",
     classifiers=[

@@ -1,5 +1,6 @@
 import psutil
 import systemd
+import subprocess
 
 
 class MonitorProcess(object):
@@ -56,3 +57,22 @@ class MonitorProcess(object):
                 errors.append(data)
 
         return output
+
+    # monitor binaries processes running
+    def monitor_bin(self):
+        command = ['ps', 'aux']
+        results = []
+        output = subprocess.check_output(command, universal_newlines=True)
+
+        for line in output.splitlines()[1:]:
+            fields = line.split()
+            process_name = fields[10]
+            binary_path = fields[11]
+
+            data = {
+                f"[{process_name}]": f"[{binary_path}]"
+            }
+
+            results.append(data)
+
+        return results
