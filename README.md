@@ -9,4 +9,6 @@ Plutus is a tool that is made ready for the purpose of monitoring your server's 
    1. Cronjob Process Monitoring [DONE]
    2. SystemCTL Services Monitoring [DONE]
    3. Linux Program Processes Monitoring 
-3. report production
+3. suspicious file scan
+   1. File Information Retrieval
+   2. Static Analysis
