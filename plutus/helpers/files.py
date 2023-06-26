@@ -38,7 +38,6 @@ def getfiledetails(path):
     #os.stat_result(st_mode=33252, st_ino=34409711, st_dev=16777224, st_nlink=1, st_uid=501, st_gid=20, st_size=189, st_atime=1605428774, st_mtime=1605428773, st_ctime=1605428773)
     '''
     
-#print(getfiledetails('C:\\Users\\emsec\\Documents\\GitHub\\AThackathons\\README.md')) 
 '''
 upon calling the function we should get something like this:
 
