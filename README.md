@@ -12,3 +12,9 @@ Plutus is a tool that is made ready for the purpose of monitoring your server's 
 3. suspicious file scan
    1. File Information Retrieval [DONE]
    2. Static Analysis [PARTIALLY-DONE]
+      1. File Information through online-sources such as Virus-Total [DONE]
+      2. Suspicious strings retrieval on binaries and executables.
+      3. Identify if file executable is safe or malicious.
+      4. Export all imported libraries that are in the executable/binary.
+      5. Export all functions in the executables/binaries.
+   3. Malicious Binary Type Identifier
