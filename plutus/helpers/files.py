@@ -1,15 +1,46 @@
 '''
 File: files.py
 Project: plutus
-File Created: Sunday, 15th November 2020 11:46:46 am
-license: 
+File Created: Sunday, 25th June 2023 11:46:46 am
 
 '''
 from mimetypes import MimeTypes
 import os
+import hashlib
+import requests
+import yaml
 from datetime import datetime #for converting unix timestamp to datetime
 
 mime = MimeTypes()
+
+with open('credentials.yml', 'r') as credentials:
+    config = yaml.safe_load(credentials)
+
+VT_API_KEY = config['VT_API_KEY']
+    """
+    We are using the VirusTotal API to get the file details. The API key is stored in a YAML file and is loaded into the config variable.
+    This is only useful when the file is was alredy uploaded to VT
+    by some researchers and the file is already in the VT database and Possibly the file is Malicious.
+    If the file is not in the VT database, then we will get an error saying that the file is not found in the VT database.
+    
+    """
+class VirusTotalAPI:
+    def __init__(self, api_key):
+        """
+        Initializes the VirusTotalAPI class with the provided API key and sets up the base URL.
+        
+        Args:
+            api_key (str): The API key for accessing the VirusTotal API.
+        """
+        self.api_key = api_key
+        self.base_url = 'https://www.virustotal.com/api/v3/files/'
+
+    def get_file_details(self, file_id):
+        url = self.base_url + file_id
+        headers = {'x-apikey': self.api_key}
+
+        response = requests.get(url, headers=headers)
+        return response.json()
 
 
 '''
@@ -20,14 +51,19 @@ This function returns the file details of a file and returns a dictionary of the
 def getfiledetails(path):
 
     infile = path
+    md5hash = hashlib.md5(open(infile,'rb').read()).hexdigest()
     mime_type = mime.guess_type(infile)
 
     filemime =  mime_type[0]
     size = os.path.getsize(infile)
     lastmodified =  datetime.fromtimestamp(os.path.getmtime(infile)).strftime('%Y-%m-%d %H:%M:%S')
     creationdate = datetime.fromtimestamp(os.path.getctime(infile)).strftime('%Y-%m-%d %H:%M:%S')
+
+    vt_api = VirusTotalAPI(VT_API_KEY)
+    file_details = vt_api.get_file_details(md5hash)
+    print(file_details)
     
-    return {'flename': infile, 'mime_type': filemime, 'size': size, 'lastmodified': lastmodified, 'creationdate': creationdate}
+    return {'flename': infile, 'mime_type': filemime, 'filehash':  md5hash, 'size': size, 'lastmodified': lastmodified, 'creationdate': creationdate}
 
     '''
     all_details = os.stat(infile)
@@ -51,5 +87,7 @@ def iterate_directory(path):
             file_path = os.path.join(root, file)
             # Process the file_path as needed
             print(getfiledetails(file_path))
-
-iterate_directory('path/to/directory')
+            
+            
+dir = os.getcwd()
+iterate_directory(dir)
