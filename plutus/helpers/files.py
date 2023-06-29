@@ -2,6 +2,7 @@
 File: files.py
 Project: plutus
 File Created: Sunday, 25th June 2023 11:46:46 am
+    @updated : Wednesday, 28th June 2023 22:56:45 pm
 """
 from mimetypes import MimeTypes
 import os
@@ -9,6 +10,7 @@ import hashlib
 import requests
 import yaml
 from datetime import datetime  # for converting unix timestamp to datetime
+from strings import BinaryFileAnalyzer
 
 mime = MimeTypes()
 
@@ -55,6 +57,9 @@ def getfiledetails(path):
     infile = path
     md5hash = hashlib.md5(open(infile, 'rb').read()).hexdigest()
     mime_type = mime.guess_type(infile)
+
+    analyzer = BinaryFileAnalyzer(infile) # the file to analyze
+    strs = analyzer.findstrings() # get the strings and will will need to compare the strings with the known malicious strings
 
     filemime = mime_type[0]
     size = os.path.getsize(infile)
