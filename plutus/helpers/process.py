@@ -76,3 +76,18 @@ class MonitorProcess(object):
             results.append(data)
 
         return results
+# Get the list of running processes
+processes = psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_percent'])
+
+for process in processes:
+    # Access process information
+    pid = process.info['pid']
+    name = process.info['name']
+    cpu_percent = process.info['cpu_percent']
+    memory_percent = process.info['memory_percent']
+    
+    print(f"Process ID: {pid}")
+    print(f"Name: {name}")
+    print(f"CPU Percent: {cpu_percent}%")
+    print(f"Memory Percent: {memory_percent}%")
+    print("---------------------------")
